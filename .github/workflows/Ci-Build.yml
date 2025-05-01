@@ -1,0 +1,29 @@
+name: .NET Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'  # Use your specific .NET version
+
+    - name: Restore dependencies
+      run: dotnet restore ./Library-System.sln  # Ensure solution file is correctly referenced
+
+    - name: Build the project
+      run: dotnet build ./Library-System.sln --configuration Release --no-restore
+
+    - name: Run tests
+      run: dotnet test ./Library-System.Tests/Library-System.Tests.csproj --no-restore --verbosity normal  # Ensure the test project path is correct
