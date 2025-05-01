@@ -1,4 +1,6 @@
-﻿namespace Library_System.Application.Models;
+﻿using System;
+
+namespace Library_System.Application.Models;
 
 public class BookRequestDetails
 {
