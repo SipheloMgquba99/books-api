@@ -1,0 +1,149 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|c:\\users\\siphelomgquba\\riderprojects\\library-system\\library-system.application\\services\\bookrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|solutionrelative:library-system.application\\services\\bookrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|c:\\users\\siphelomgquba\\riderprojects\\library-system\\library-system.application\\repositories\\bookrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|solutionrelative:library-system.application\\repositories\\bookrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CECB91A6-F8E8-6E94-34F4-F87898C21927}|Library-System.Api\\Library-System.Api.csproj|c:\\users\\siphelomgquba\\riderprojects\\library-system\\library-system.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CECB91A6-F8E8-6E94-34F4-F87898C21927}|Library-System.Api\\Library-System.Api.csproj|solutionrelative:library-system.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|c:\\users\\siphelomgquba\\riderprojects\\library-system\\library-system.application\\interfaces\\irepositories\\ibookrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|solutionrelative:library-system.application\\interfaces\\irepositories\\ibookrequestrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|c:\\users\\siphelomgquba\\riderprojects\\library-system\\library-system.application\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64E5F8D1-2C9E-B83C-31C6-6E04240F46C2}|Library-System.Application\\Library-System.Application.csproj|solutionrelative:library-system.application\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 126,
+          "SelectedChildIndex": 14,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BookRequestRepository.cs",
+              "DocumentMoniker": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Repositories\\BookRequestRepository.cs",
+              "RelativeDocumentMoniker": "Library-System.Application\\Repositories\\BookRequestRepository.cs",
+              "ToolTip": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Repositories\\BookRequestRepository.cs*",
+              "RelativeToolTip": "Library-System.Application\\Repositories\\BookRequestRepository.cs*",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAAAJ4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T20:35:21.389Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Library-System.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Api\\Program.cs",
+              "RelativeToolTip": "Library-System.Api\\Program.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAgwBoAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T20:35:19.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IBookRequestRepository.cs",
+              "DocumentMoniker": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Interfaces\\IRepositories\\IBookRequestRepository.cs",
+              "RelativeDocumentMoniker": "Library-System.Application\\Interfaces\\IRepositories\\IBookRequestRepository.cs",
+              "ToolTip": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Interfaces\\IRepositories\\IBookRequestRepository.cs*",
+              "RelativeToolTip": "Library-System.Application\\Interfaces\\IRepositories\\IBookRequestRepository.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T20:34:13.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BookRequestService.cs",
+              "DocumentMoniker": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Services\\BookRequestService.cs",
+              "RelativeDocumentMoniker": "Library-System.Application\\Services\\BookRequestService.cs",
+              "ToolTip": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Services\\BookRequestService.cs",
+              "RelativeToolTip": "Library-System.Application\\Services\\BookRequestService.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAAMMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T20:25:45.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BookService.cs",
+              "DocumentMoniker": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Services\\BookService.cs",
+              "RelativeDocumentMoniker": "Library-System.Application\\Services\\BookService.cs",
+              "ToolTip": "C:\\Users\\SipheloMgquba\\RiderProjects\\Library-System\\Library-System.Application\\Services\\BookService.cs",
+              "RelativeToolTip": "Library-System.Application\\Services\\BookService.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAACYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T20:25:43.665Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

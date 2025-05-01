@@ -19,11 +19,19 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.15" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Library-System.Domain\Library-System.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Configuration">
+        <HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.8\Microsoft.Extensions.Configuration.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

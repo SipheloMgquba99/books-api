@@ -20,4 +20,6 @@ public class Book
 
     public DateTimeOffset ReleaseDate { get; set; } 
     public BookStatus Status { get; set; }
+
+    public ICollection<BookRequest> BookRequests { get; set; } = [];
 }
