@@ -1,3 +1,5 @@
+using NUnit.Framework;
+
 namespace Library_System.Tests;
 
 public class Tests

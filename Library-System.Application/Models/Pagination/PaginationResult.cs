@@ -1,4 +1,6 @@
-﻿namespace Library_System.Application.Models;
+﻿using System.Linq;
+
+namespace Library_System.Application.Models;
 
 public class PaginationResult<T>
 {

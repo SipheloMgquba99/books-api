@@ -1,4 +1,5 @@
-﻿using Library_System.Domain.Enums;
+﻿using System;
+using Library_System.Domain.Enums;
 
 namespace Library_System.Application.Models.Filters;
 
