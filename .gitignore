@@ -1,0 +1,36 @@
+## Ignore build outputs
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider files
+.idea/
+
+## VS Code settings
+.vscode/
+
+## ASP.NET secrets
+secrets.json
+
+## Configuration
+appsettings.json
+appsettings.*.json
+
+## Others
+*.log
+*.db
+*.sqlite
+*.pdb
+*.mdb
+*.pidb
+
+## OS-generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
