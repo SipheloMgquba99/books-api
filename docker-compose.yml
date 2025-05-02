@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Library-System.Api/Dockerfile
+    container_name: library-system-api
+    ports:
+      - "5000:80" 
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}
+      ConnectionStrings__Redis: ${REDIS_HOST}:${REDIS_PORT}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - librarynet
+
+  postgres:
+    image: postgres:15
+    container_name: library-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - librarynet
+
+  redis:
+    image: redis:7
+    container_name: library-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - librarynet
+
+volumes:
+  pgdata:
+
+networks:
+  librarynet:
+    driver: bridge

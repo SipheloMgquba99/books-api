@@ -28,6 +28,8 @@ builder.Services.AddScoped<IBookRequestRepository, BookRequestRepository>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Configuration.AddUserSecrets<Program>();
+builder.Configuration.AddEnvironmentVariables();
+
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
@@ -41,6 +43,13 @@ builder.Services.AddDbContext<LibraryDbContext>(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
+    db.Database.Migrate();
+}
+
 
 app.UseCors();
 
