@@ -10,14 +10,23 @@ public class LibraryDbContext : DbContext
     }
 
     public DbSet<Book> Books { get; set; }
+
     public DbSet<BookRequest> BookRequests { get; set; }
+
+    public DbSet<BookRequestor> BookRequestors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BookRequest>()
             .HasOne(br => br.Book)
-            .WithMany()
+            .WithMany(b => b.BookRequests)
             .HasForeignKey(br => br.BookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<BookRequest>()
+            .HasOne(br => br.BookRequestor)
+            .WithMany(r => r.BookRequests)
+            .HasForeignKey(br => br.BookRequestorId)
             .OnDelete(DeleteBehavior.Cascade);
 
         base.OnModelCreating(modelBuilder);

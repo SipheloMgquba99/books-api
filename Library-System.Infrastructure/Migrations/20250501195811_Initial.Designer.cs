@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library_System.Infrastructure.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20250501151959_Initial")]
+    [Migration("20250501195811_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -34,7 +34,7 @@ namespace Library_System.Infrastructure.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MemberId")
+                    b.Property<Guid>("BookRequestorId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("RequestDate")
@@ -46,6 +46,8 @@ namespace Library_System.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
+
+                    b.HasIndex("BookRequestorId");
 
                     b.ToTable("BookRequests");
                 });
@@ -90,15 +92,56 @@ namespace Library_System.Infrastructure.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("Library_System.Domain.Entities.BookRequestor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookRequestors");
+                });
+
             modelBuilder.Entity("BookRequest", b =>
                 {
                     b.HasOne("Library_System.Domain.Entities.Book", "Book")
-                        .WithMany()
+                        .WithMany("BookRequests")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Library_System.Domain.Entities.BookRequestor", "BookRequestor")
+                        .WithMany("BookRequests")
+                        .HasForeignKey("BookRequestorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Book");
+
+                    b.Navigation("BookRequestor");
+                });
+
+            modelBuilder.Entity("Library_System.Domain.Entities.Book", b =>
+                {
+                    b.Navigation("BookRequests");
+                });
+
+            modelBuilder.Entity("Library_System.Domain.Entities.BookRequestor", b =>
+                {
+                    b.Navigation("BookRequests");
                 });
 #pragma warning restore 612, 618
         }

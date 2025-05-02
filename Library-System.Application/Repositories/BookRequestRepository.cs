@@ -141,6 +141,26 @@ public class BookRequestRepository : IBookRequestRepository
         }
     }
 
+    public async Task<BookRequestor?> GetByContactAsync(string contactNumber)
+    {
+        return await _context.BookRequestors
+            .FirstOrDefaultAsync(br => br.ContactNumber == contactNumber);
+    }
+
+    public async Task<ServiceResult<BookRequestor>> AddAsync(BookRequestor requestor)
+    {
+        try
+        {
+            await _context.BookRequestors.AddAsync(requestor);
+            await _context.SaveChangesAsync();
+            return ServiceResult<BookRequestor>.SuccessResult(requestor);
+        }
+        catch (Exception ex)
+        {
+            return ServiceResult<BookRequestor>.FailureResult($"Error adding book requestor: {ex.Message}");
+        }
+    }
+
     private IQueryable<BookRequestDetails> ApplyFilters(IQueryable<BookRequestDetails> query, BookRequestFilter filter)
     {
         if (!string.IsNullOrWhiteSpace(filter.BookTitle))

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Library_System.Application.Interfaces.IRepositories;
+﻿using Library_System.Application.Interfaces.IRepositories;
 using Library_System.Application.Interfaces.IServices;
 using Library_System.Application.Models;
 using Library_System.Application.Models.Filters;
 using Library_System.Domain.Dtos;
+using Library_System.Domain.Entities;
 using Library_System.Infrastructure.Cache.Interfaces;
 
 public class BookRequestService : IBookRequestService
@@ -30,15 +29,21 @@ public class BookRequestService : IBookRequestService
         try
         {
             if (bookRequestDTO == null)
-                return ServiceResult<BookRequest>.FailureResult("Book request is null.");
+                return ServiceResult<BookRequest>.FailureResult("Book request data is null.");
 
-            var book = await _bookRepository.GetByBookTitle(bookRequestDTO.BookTitle);
+            var book = await GetOrCacheBookAsync(bookRequestDTO.BookTitle);
             if (book == null)
                 return ServiceResult<BookRequest>.FailureResult($"Book with title '{bookRequestDTO.BookTitle}' not found.");
 
+            var requestor = await GetOrCreateRequestorAsync(bookRequestDTO);
+            if (requestor == null)
+                return ServiceResult<BookRequest>.FailureResult("Failed to save book requestor.");
+
             var bookRequest = new BookRequest
             {
+                Id = Guid.NewGuid(),
                 BookId = book.Id,
+                BookRequestorId = requestor.Id,
                 RequestDate = DateTime.UtcNow,
                 ReturnDate = DateTime.UtcNow.AddDays(7)
             };
@@ -47,7 +52,11 @@ public class BookRequestService : IBookRequestService
             if (result.Success)
             {
                 await _cacheService.RemoveAsync($"{BookRequestCacheKeyPrefix}{bookRequest.Id}");
-                return ServiceResult<BookRequest>.SuccessResult(result.Data);
+                
+                bookRequest.Book = book;
+                bookRequest.BookRequestor = requestor;
+
+                return ServiceResult<BookRequest>.SuccessResult(bookRequest);
             }
 
             return ServiceResult<BookRequest>.FailureResult(result.Message);
@@ -79,7 +88,10 @@ public class BookRequestService : IBookRequestService
             if (result.Success)
             {
                 await _cacheService.RemoveAsync($"{BookRequestCacheKeyPrefix}{bookRequest.Id}");
-                return ServiceResult<BookRequest>.SuccessResult(result.Data);
+                
+                bookRequest.Book = book;
+
+                return ServiceResult<BookRequest>.SuccessResult(bookRequest);
             }
 
             return ServiceResult<BookRequest>.FailureResult(result.Message);
@@ -138,7 +150,7 @@ public class BookRequestService : IBookRequestService
             return ServiceResult<BookRequest>.FailureResult($"An error occurred: {ex.Message}");
         }
     }
-    
+
     public async Task<ServiceResult<PaginationResult<BookRequestDetails>>> GetBookRequests(BookRequestFilter filter)
     {
         try
@@ -156,5 +168,57 @@ public class BookRequestService : IBookRequestService
         {
             return ServiceResult<PaginationResult<BookRequestDetails>>.FailureResult($"An error occurred: {ex.Message}");
         }
+    }
+
+    private async Task<Book> GetOrCacheBookAsync(string bookTitle)
+    {
+        const int CacheExpirationMinutes = 10;
+        string bookCacheKey = $"{BookRequestCacheKeyPrefix}book:{bookTitle}";
+
+        var book = await _cacheService.GetAsync<Book>(bookCacheKey);
+        if (book == null)
+        {
+            book = await _bookRepository.GetByBookTitle(bookTitle);
+            if (book != null)
+            {
+                await _cacheService.SetAsync(bookCacheKey, book, TimeSpan.FromMinutes(CacheExpirationMinutes));
+            }
+        }
+
+        return book;
+    }
+
+    private async Task<BookRequestor> GetOrCreateRequestorAsync(BookRequestDTO bookRequestDTO)
+    {
+        const int CacheExpirationMinutes = 10;
+        string requestorCacheKey = $"{BookRequestCacheKeyPrefix}requestor:{bookRequestDTO.ContactNumber}";
+
+        var requestor = await _cacheService.GetAsync<BookRequestor>(requestorCacheKey);
+        if (requestor == null)
+        {
+            requestor = await _bookRequestRepository.GetByContactAsync(bookRequestDTO.ContactNumber);
+            if (requestor == null)
+            {
+                requestor = new BookRequestor
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = bookRequestDTO.FirstName,
+                    LastName = bookRequestDTO.LastName,
+                    ContactNumber = bookRequestDTO.ContactNumber
+                };
+
+                var result = await _bookRequestRepository.AddAsync(requestor);
+                if (!result.Success)
+                    return null;
+
+                await _cacheService.SetAsync(requestorCacheKey, requestor, TimeSpan.FromMinutes(CacheExpirationMinutes));
+            }
+            else
+            {
+                await _cacheService.SetAsync(requestorCacheKey, requestor, TimeSpan.FromMinutes(CacheExpirationMinutes));
+            }
+        }
+
+        return requestor;
     }
 }
