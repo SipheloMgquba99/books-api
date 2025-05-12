@@ -9,10 +9,9 @@ namespace Library_System.Application.Interfaces.IServices;
 
 public interface IBookRequestService
 {
-    Task<ServiceResult<BookRequest>> AddBookRequest(BookRequestDTO bookRequestDTO
-        );
-    Task<ServiceResult<BookRequest>> UpdateBookRequest(BookRequestDTO bookRequestDto);
-    Task<ServiceResult<BookRequest>> DeleteBookRequest(Guid id);
-    Task<ServiceResult<BookRequest>> GetBookRequest(Guid id);
+    Task<ServiceResult<BookRequestDto>> AddBookRequest(BookRequestDto bookRequestDTO);
+    Task<ServiceResult<BookRequestDto>> UpdateBookRequest(BookRequestDto bookRequestDto);
+    Task<ServiceResult<BookRequestDto>> DeleteBookRequest(Guid id);
+    Task<ServiceResult<BookRequestDto>> GetBookRequest(Guid id);
     Task<ServiceResult<PaginationResult<BookRequestDetails>>> GetBookRequests(BookRequestFilter filter);
 }

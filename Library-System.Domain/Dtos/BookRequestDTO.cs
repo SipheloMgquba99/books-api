@@ -1,9 +1,9 @@
-﻿namespace Library_System.Domain.Dtos;
-
-public record BookRequestDTO(
+﻿public record BookRequestDto(
     Guid Id,
     string BookTitle,
     string FirstName,
     string LastName,
-    string ContactNumber
+    string ContactNumber,
+    DateTime RequestDate,
+    DateTime ReturnDate
 );

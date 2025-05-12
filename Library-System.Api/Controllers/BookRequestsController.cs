@@ -51,7 +51,7 @@ public class BookRequestsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddBookRequest([FromBody] BookRequestDTO bookRequestDto)
+    public async Task<IActionResult> AddBookRequest([FromBody] BookRequestDto bookRequestDto)
     {
         _logger.LogInformation("Adding a new book request.");
 
@@ -59,15 +59,16 @@ public class BookRequestsController : ControllerBase
         if (result.Success)
         {
             _logger.LogInformation("Book request added successfully with ID {Id}", result.Data.Id);
-            return CreatedAtAction(nameof(GetBookRequest), new { id = result.Data.Id }, result); 
+            return CreatedAtAction(nameof(GetBookRequest), new { id = result.Data.Id }, result);
         }
 
         _logger.LogWarning("Failed to add book request: {Message}", result.Message);
-        return BadRequest(new { Success = false, Message = result.Message }); 
+        return BadRequest(new { Success = false, Message = result.Message });
     }
 
+
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateBookRequest([FromBody] BookRequestDTO bookRequestDTO)
+    public async Task<IActionResult> UpdateBookRequest([FromBody] BookRequestDto bookRequestDTO)
     {
         if (bookRequestDTO == null && bookRequestDTO.Id == Guid.Empty)
         {

@@ -1,5 +1,4 @@
 ﻿using Library_System.Domain.Entities;
-
 public class BookRequest
 {
     public Guid Id { get; set; }

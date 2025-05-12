@@ -1,134 +1,163 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Library_System.Application.Interfaces.IRepositories;
 using Library_System.Application.Interfaces.IServices;
 using Library_System.Application.Models;
 using Library_System.Application.Models.Filters;
+using Library_System.Domain.Dtos;
 using Library_System.Domain.Entities;
 using Library_System.Infrastructure.Cache.Interfaces;
 
 public class BookService : IBookService
 {
     private readonly IBookRepository _bookRepository;
+    private readonly IMapper _mapper;
     private readonly ICacheService _cacheService;
     private const string BookCacheKeyPrefix = "book:";
 
-    public BookService(IBookRepository bookRepository, ICacheService cacheService)
+    public BookService(IBookRepository bookRepository, IMapper mapper, ICacheService cacheService)
     {
         _bookRepository = bookRepository;
+        _mapper = mapper;
         _cacheService = cacheService;
     }
 
-    public async Task<ServiceResult<Book>> AddBook(Book book)
+    public async Task<ServiceResult<BookDto>> AddBook(BookDto bookDto)
     {
         try
         {
-            if (book == null)
-                return ServiceResult<Book>.FailureResult("Book is null.");
+            if (bookDto == null)
+                return ServiceResult<BookDto>.FailureResult("Book data is null.");
 
+            var book = _mapper.Map<Book>(bookDto);
             var result = await _bookRepository.AddAsync(book);
+
             if (result.Success)
             {
                 await _cacheService.RemoveAsync($"{BookCacheKeyPrefix}{book.Id}");
-                return ServiceResult<Book>.SuccessResult(result.Data);
+                var addedBookDto = _mapper.Map<BookDto>(result.Data);
+                return ServiceResult<BookDto>.SuccessResult(addedBookDto);
             }
 
-            return ServiceResult<Book>.FailureResult(result.Message);
+            return ServiceResult<BookDto>.FailureResult(result.Message);
         }
         catch (Exception ex)
         {
-            return ServiceResult<Book>.FailureResult($"An error occurred: {ex.Message}");
+            return ServiceResult<BookDto>.FailureResult($"An error occurred: {ex.Message}");
         }
     }
 
-    public async Task<ServiceResult<Book>> UpdateBook(Book book)
+    public async Task<ServiceResult<BookDto>> UpdateBook(BookDto bookDto)
     {
         try
         {
-            if (book == null || book.Id == Guid.Empty)
-                return ServiceResult<Book>.FailureResult("Invalid book data.");
+            if (bookDto == null || bookDto.Id == Guid.Empty)
+                return ServiceResult<BookDto>.FailureResult("Invalid book data.");
 
+            var book = _mapper.Map<Book>(bookDto);
             var result = await _bookRepository.UpdateAsync(book);
+
             if (result.Success)
             {
                 await _cacheService.RemoveAsync($"{BookCacheKeyPrefix}{book.Id}");
-                return ServiceResult<Book>.SuccessResult(result.Data);
+                var updatedBookDto = _mapper.Map<BookDto>(result.Data);
+                return ServiceResult<BookDto>.SuccessResult(updatedBookDto);
             }
 
-            return ServiceResult<Book>.FailureResult(result.Message);
+            return ServiceResult<BookDto>.FailureResult(result.Message);
         }
         catch (Exception ex)
         {
-            return ServiceResult<Book>.FailureResult($"An error occurred: {ex.Message}");
+            return ServiceResult<BookDto>.FailureResult($"An error occurred: {ex.Message}");
         }
     }
 
-    public async Task<ServiceResult<Book>> DeleteBook(Guid id)
+    public async Task<ServiceResult<BookDto>> DeleteBook(Guid id)
     {
         try
         {
             if (id == Guid.Empty)
-                return ServiceResult<Book>.FailureResult("Invalid book ID.");
+                return ServiceResult<BookDto>.FailureResult("Invalid book ID.");
 
             var result = await _bookRepository.DeleteAsync(id);
+
             if (result.Success)
             {
                 await _cacheService.RemoveAsync($"{BookCacheKeyPrefix}{id}");
-                return ServiceResult<Book>.SuccessResult(result.Data);
+                var deletedBookDto = _mapper.Map<BookDto>(result.Data);
+                return ServiceResult<BookDto>.SuccessResult(deletedBookDto);
             }
 
-            return ServiceResult<Book>.FailureResult(result.Message);
+            return ServiceResult<BookDto>.FailureResult(result.Message);
         }
         catch (Exception ex)
         {
-            return ServiceResult<Book>.FailureResult($"An error occurred: {ex.Message}");
+            return ServiceResult<BookDto>.FailureResult($"An error occurred: {ex.Message}");
         }
     }
 
-    public async Task<ServiceResult<Book>> GetBook(Guid id)
+    public async Task<ServiceResult<BookDto>> GetBook(Guid id)
     {
         try
         {
             if (id == Guid.Empty)
-                return ServiceResult<Book>.FailureResult("Invalid book ID.");
+                return ServiceResult<BookDto>.FailureResult("Invalid book ID.");
 
             string cacheKey = $"{BookCacheKeyPrefix}{id}";
             var cachedBook = await _cacheService.GetAsync<Book>(cacheKey);
+
             if (cachedBook != null)
-                return ServiceResult<Book>.SuccessResult(cachedBook);
-            
+            {
+                var cachedBookDto = _mapper.Map<BookDto>(cachedBook);
+                return ServiceResult<BookDto>.SuccessResult(cachedBookDto);
+            }
+
             var book = await _bookRepository.GetByIdAsync(id);
+
             if (book != null)
             {
                 await _cacheService.SetAsync(cacheKey, book, TimeSpan.FromMinutes(5));
-                return ServiceResult<Book>.SuccessResult(book);
+                var bookDto = _mapper.Map<BookDto>(book);
+                return ServiceResult<BookDto>.SuccessResult(bookDto);
             }
 
-            return ServiceResult<Book>.FailureResult("Book not found.");
+            return ServiceResult<BookDto>.FailureResult("Book not found.");
         }
         catch (Exception ex)
         {
-            return ServiceResult<Book>.FailureResult($"An error occurred: {ex.Message}");
+            return ServiceResult<BookDto>.FailureResult($"An error occurred: {ex.Message}");
         }
     }
 
-    public async Task<ServiceResult<PaginationResult<Book>>> GetBooks(BooksFilter filter)
+    public async Task<ServiceResult<PaginationResult<BookDto>>> GetBooks(BooksFilter filter)
     {
         try
         {
             if (filter == null)
-                return ServiceResult<PaginationResult<Book>>.FailureResult("Invalid filter data.");
-            
-            var result = await _bookRepository.GetAllAsync(filter);
-            
-            if (result.Success)
-                return ServiceResult<PaginationResult<Book>>.SuccessResult(result.Data);
+                return ServiceResult<PaginationResult<BookDto>>.FailureResult("Invalid filter data.");
 
-            return ServiceResult<PaginationResult<Book>>.FailureResult(result.Message);
+            var result = await _bookRepository.GetAllAsync(filter);
+
+            if (result.Success)
+            {
+                var pagedBooksDto = new PaginationResult<BookDto>
+                {
+                    Items = result.Data.Items.Select(book => _mapper.Map<BookDto>(book)).AsQueryable(),
+                    TotalCount = result.Data.TotalCount,
+                    TotalPages = result.Data.TotalPages,
+                    PageNumber = result.Data.PageNumber,
+                    PageSize = result.Data.PageSize
+                };
+
+                return ServiceResult<PaginationResult<BookDto>>.SuccessResult(pagedBooksDto);
+            }
+
+            return ServiceResult<PaginationResult<BookDto>>.FailureResult(result.Message);
         }
         catch (Exception ex)
         {
-            return ServiceResult<PaginationResult<Book>>.FailureResult($"An error occurred: {ex.Message}");
+            return ServiceResult<PaginationResult<BookDto>>.FailureResult($"An error occurred: {ex.Message}");
         }
     }
 }

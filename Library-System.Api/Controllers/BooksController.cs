@@ -1,5 +1,6 @@
 ﻿using Library_System.Application.Interfaces.IServices;
 using Library_System.Application.Models.Filters;
+using Library_System.Domain.Dtos;
 using Library_System.Domain.Entities;
 
 using Microsoft.AspNetCore.Mvc;
@@ -54,10 +55,10 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddBook([FromBody] Book book)
+    public async Task<IActionResult> AddBook([FromBody] BookDto bookDto)
     {
         _logger.LogInformation("Attempting to add a new book.");
-        var result = await _bookService.AddBook(book);
+        var result = await _bookService.AddBook(bookDto);
 
         if (result.Success)
         {
@@ -66,21 +67,21 @@ public class BooksController : ControllerBase
         }
 
         _logger.LogWarning("Failed to add book: {Message}", result.Message);
-        return BadRequest(new { Success = false, Message = result.Message }); 
+        return BadRequest(new { Success = false, Message = result.Message });
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> UpdateBook(Guid id, [FromBody] Book book)
+    public async Task<IActionResult> UpdateBook(Guid id, [FromBody] BookDto bookDto)
     {
         _logger.LogInformation("Attempting to update book with ID {BookId}.", id);
 
-        if (id != book.Id)
+        if (id != bookDto.Id)
         {
-            _logger.LogWarning("ID mismatch: {RouteId} vs {BodyId}", id, book.Id);
+            _logger.LogWarning("ID mismatch: {RouteId} vs {BodyId}", id, bookDto.Id);
             return BadRequest(new { Success = false, Message = "ID in route does not match ID in the body." });
         }
 
-        var result = await _bookService.UpdateBook(book);
+        var result = await _bookService.UpdateBook(bookDto);
 
         if (result.Success)
         {
